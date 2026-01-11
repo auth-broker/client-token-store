@@ -7,9 +7,6 @@ dist/
 # pyenv
 .python-version
 
-# uv
-uv.lock
-
 # Environments
 .env
 .venv

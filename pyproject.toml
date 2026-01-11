@@ -1,0 +1,32 @@
+[project]
+name = "ab-client-token-store"
+version = "0.1.0"
+description = "A client library for accessing FastAPI"
+authors = []
+requires-python = ">=3.9,<4"
+readme = "README.md"
+dependencies = [
+    "httpx>=0.23.0,<0.29.0",
+    "attrs>=22.2.0",
+    "python-dateutil>=2.8.0,<3",
+]
+
+[tool.hatch.build.targets.sdist]
+include = ["ab_client_token_store"]
+
+[tool.hatch.build.targets.sdist.force-include]
+"CHANGELOG.md" = "CHANGELOG.md"
+"ab_client_token_store/py.typed" = "ab_client_token_store/py.typed"
+
+[tool.hatch.build.targets.wheel]
+include = ["ab_client_token_store"]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.ruff]
+line-length = 120
+
+[tool.ruff.lint]
+select = ["F", "I", "UP"]
