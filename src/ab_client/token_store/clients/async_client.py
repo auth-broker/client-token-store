@@ -1,7 +1,11 @@
+from __future__ import annotations
+
+import json
+from collections.abc import AsyncGenerator
 from typing import Any, Dict, Optional, Union
 
 import httpx
-from pydantic import BaseModel, HttpUrl
+from pydantic import BaseModel
 
 from ..exceptions import HTTPException
 from ..models import *
@@ -24,7 +28,7 @@ class AsyncClient(BaseModel):
         self,
         created_by: str,
         tenant_id: str,
-    ) -> Any:
+    ) -> ManagedOAuth2Token:
         base_url = self.base_url
         path = f"/oauth2-token"
 
@@ -55,12 +59,13 @@ class AsyncClient(BaseModel):
             )
 
         body = None if 200 == 204 else response.json()
-        return body
+
+        return ManagedOAuth2Token.model_validate(body) if body is not None else ManagedOAuth2Token()
 
     async def create_oauth2_token_post(
         self,
         data: CreateOAuth2TokenRequest,
-    ) -> Any:
+    ) -> ManagedOAuth2Token:
         base_url = self.base_url
         path = f"/oauth2-token"
 
@@ -89,13 +94,14 @@ class AsyncClient(BaseModel):
             )
 
         body = None if 201 == 204 else response.json()
-        return body
+
+        return ManagedOAuth2Token.model_validate(body) if body is not None else ManagedOAuth2Token()
 
     async def delete_by_connection_oauth2_token_delete(
         self,
         created_by: str,
         tenant_id: str,
-    ) -> Any:
+    ) -> None:
         base_url = self.base_url
         path = f"/oauth2-token"
 
@@ -126,12 +132,13 @@ class AsyncClient(BaseModel):
             )
 
         body = None if 204 == 204 else response.json()
-        return body
+
+        return None
 
     async def get_one_oauth2_token__id__get(
         self,
         id: str,
-    ) -> Any:
+    ) -> ManagedOAuth2Token:
         base_url = self.base_url
         path = f"/oauth2-token/{id}"
 
@@ -159,12 +166,13 @@ class AsyncClient(BaseModel):
             )
 
         body = None if 200 == 204 else response.json()
-        return body
+
+        return ManagedOAuth2Token.model_validate(body) if body is not None else ManagedOAuth2Token()
 
     async def delete_one_oauth2_token__id__delete(
         self,
         id: str,
-    ) -> Any:
+    ) -> None:
         base_url = self.base_url
         path = f"/oauth2-token/{id}"
 
@@ -192,4 +200,5 @@ class AsyncClient(BaseModel):
             )
 
         body = None if 204 == 204 else response.json()
-        return body
+
+        return None
