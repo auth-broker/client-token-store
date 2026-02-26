@@ -5,7 +5,7 @@ from collections.abc import Generator
 from typing import Any, Dict, Optional, Union
 
 import httpx
-from pydantic import BaseModel
+from pydantic import BaseModel, TypeAdapter
 
 from ..exceptions import HTTPException
 from ..models import *
@@ -60,7 +60,7 @@ class SyncClient(BaseModel):
 
         body = None if 200 == 204 else response.json()
 
-        return ManagedOAuth2Token.model_validate(body) if body is not None else ManagedOAuth2Token()
+        return TypeAdapter(ManagedOAuth2Token).validate_python(body)
 
     def create_oauth2_token_post(
         self,
@@ -95,7 +95,7 @@ class SyncClient(BaseModel):
 
         body = None if 201 == 204 else response.json()
 
-        return ManagedOAuth2Token.model_validate(body) if body is not None else ManagedOAuth2Token()
+        return TypeAdapter(ManagedOAuth2Token).validate_python(body)
 
     def delete_by_connection_oauth2_token_delete(
         self,
@@ -167,7 +167,7 @@ class SyncClient(BaseModel):
 
         body = None if 200 == 204 else response.json()
 
-        return ManagedOAuth2Token.model_validate(body) if body is not None else ManagedOAuth2Token()
+        return TypeAdapter(ManagedOAuth2Token).validate_python(body)
 
     def delete_one_oauth2_token__id__delete(
         self,

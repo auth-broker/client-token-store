@@ -5,7 +5,7 @@ from collections.abc import AsyncGenerator
 from typing import Any, Dict, Optional, Union
 
 import httpx
-from pydantic import BaseModel
+from pydantic import BaseModel, TypeAdapter
 
 from ..exceptions import HTTPException
 from ..models import *
@@ -18,10 +18,10 @@ class AsyncClient(BaseModel):
     verify: Union[bool, str] = True
     access_token: Optional[str] = None
 
-    def get_access_token(self) -> Optional[str]:
+    async def get_access_token(self) -> Optional[str]:
         return self.access_token
 
-    def set_access_token(self, value: str) -> None:
+    async def set_access_token(self, value: str) -> None:
         self.access_token = value
 
     async def get_by_connection_oauth2_token_get(
@@ -35,7 +35,7 @@ class AsyncClient(BaseModel):
         headers = {
             "Content-Type": "application/json",
             "Accept": "application/json",
-            "Authorization": f"Bearer { self.get_access_token() }",
+            "Authorization": f"Bearer { await self.get_access_token() }",
         }
 
         query_params: Dict[str, Any] = {
@@ -60,7 +60,7 @@ class AsyncClient(BaseModel):
 
         body = None if 200 == 204 else response.json()
 
-        return ManagedOAuth2Token.model_validate(body) if body is not None else ManagedOAuth2Token()
+        return TypeAdapter(ManagedOAuth2Token).validate_python(body)
 
     async def create_oauth2_token_post(
         self,
@@ -72,7 +72,7 @@ class AsyncClient(BaseModel):
         headers = {
             "Content-Type": "application/json",
             "Accept": "application/json",
-            "Authorization": f"Bearer { self.get_access_token() }",
+            "Authorization": f"Bearer { await self.get_access_token() }",
         }
 
         query_params: Dict[str, Any] = {}
@@ -95,7 +95,7 @@ class AsyncClient(BaseModel):
 
         body = None if 201 == 204 else response.json()
 
-        return ManagedOAuth2Token.model_validate(body) if body is not None else ManagedOAuth2Token()
+        return TypeAdapter(ManagedOAuth2Token).validate_python(body)
 
     async def delete_by_connection_oauth2_token_delete(
         self,
@@ -108,7 +108,7 @@ class AsyncClient(BaseModel):
         headers = {
             "Content-Type": "application/json",
             "Accept": "application/json",
-            "Authorization": f"Bearer { self.get_access_token() }",
+            "Authorization": f"Bearer { await self.get_access_token() }",
         }
 
         query_params: Dict[str, Any] = {
@@ -145,7 +145,7 @@ class AsyncClient(BaseModel):
         headers = {
             "Content-Type": "application/json",
             "Accept": "application/json",
-            "Authorization": f"Bearer { self.get_access_token() }",
+            "Authorization": f"Bearer { await self.get_access_token() }",
         }
 
         query_params: Dict[str, Any] = {}
@@ -167,7 +167,7 @@ class AsyncClient(BaseModel):
 
         body = None if 200 == 204 else response.json()
 
-        return ManagedOAuth2Token.model_validate(body) if body is not None else ManagedOAuth2Token()
+        return TypeAdapter(ManagedOAuth2Token).validate_python(body)
 
     async def delete_one_oauth2_token__id__delete(
         self,
@@ -179,7 +179,7 @@ class AsyncClient(BaseModel):
         headers = {
             "Content-Type": "application/json",
             "Accept": "application/json",
-            "Authorization": f"Bearer { self.get_access_token() }",
+            "Authorization": f"Bearer { await self.get_access_token() }",
         }
 
         query_params: Dict[str, Any] = {}
