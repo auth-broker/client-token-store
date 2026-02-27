@@ -22,3 +22,5 @@ class OAuth2Token(BaseModel):
     scope: Optional[Union[str, None]] = Field(validation_alias="scope", default=None)
 
     token_type: str = Field(validation_alias="token_type")
+
+    app_context: Optional[Union[Dict[str, str], None]] = Field(validation_alias="app_context", default=None)
